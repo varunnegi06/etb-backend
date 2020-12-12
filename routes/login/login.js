@@ -1,12 +1,7 @@
 var express = require('express');
 var routes = express.Router();
-
-routes.get("/login",async function(req,res){
-    
-    res.send({ "message":"login Successfully" });
-});
-
 const { User} = require('../../db/sequalize');
+
 routes.get('/api/users', async (req, res) => {
     let result = await User.findAll();
     console.log(JSON.stringify(result));
