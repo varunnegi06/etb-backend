@@ -1,5 +1,6 @@
 const { User} = require('../db/sequalize');
 const { Op } = require("sequelize");
+const jwt = require('jsonwebtoken');
 
 const login = (req) => {
 
@@ -35,15 +36,27 @@ const login = (req) => {
             const isPasswordValid = await user.validPassword(password,user.password);
             console.log("isPasswordValid "+isPasswordValid+" "+user.password);
             if (!isPasswordValid) {
-              return res.status(403).send({
-                error: 'The login information was incorrect'
-              })
+                return resolve({
+                    status: 403,
+                    error: 'the login information was incorrect / Not Found'
+                  })
             }
             // return user using toJSON()
             const userJson = user.toJSON()
+
+            const  expiresIn  =  24  *  60  *  60;
+            const SECRET_KEY = `T003bhyr)656583**`;
+            const  accessToken  =  jwt.sign({ id:  user.id }, SECRET_KEY, {
+                expiresIn:  expiresIn
+            });
+
+            delete userJson.userId;
+            delete userJson.password;
+            delete userJson.updatedAt;
+
             resolve({
               user: userJson,
-              token: jwtSignUser(userJson)
+              token: accessToken
             })
           } catch (e) {
             console.log(e)

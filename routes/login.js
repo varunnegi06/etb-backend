@@ -12,7 +12,7 @@ routes.get('/api/users', async (req, res) => {
 routes.post("/loginpost",async function(req,res){
     console.log(JSON.stringify(req.body));
     let login = await loginService.login(req);
-    res.send({ "message":"login Successfully" });
+    res.send(login);
 });
 
 module.exports= routes;
