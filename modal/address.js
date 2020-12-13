@@ -1,3 +1,4 @@
+
 module.exports = (sequelize, type) => {
   let address = sequelize.define('address', {
     addressId: {
@@ -49,6 +50,10 @@ module.exports = (sequelize, type) => {
     expDate: {
       type: type.STRING,
       field: 'exp_date'
+    },
+    userId:{
+      type: type.STRING,
+      field: 'user_id'
     }
   }, {
     timestamps: false,
