@@ -1,7 +1,7 @@
 var express = require('express');
 var routes = express.Router();
-const { User} = require('../../db/sequalize');
-const loginService = require('../../services/loginService');
+const { User} = require('../db/sequalize');
+const loginService = require('../services/loginService');
 
 routes.get('/api/users', async (req, res) => {
     let result = await User.findAll();
