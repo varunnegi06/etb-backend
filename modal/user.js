@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 
 module.exports = (sequelize, type) => {
-    return sequelize.define('user_details', {
+    let User = sequelize.define('user_details', {
         userId: {
           type: type.INTEGER,
           field: 'user_id',
@@ -12,27 +12,63 @@ module.exports = (sequelize, type) => {
             type:type.STRING,
             field: 'user_name'
         } ,
-        password: type.STRING,
+        email: {
+            type:type.STRING,
+            field: 'email'
+        }
+        ,
+        password: {
+            type: type.STRING,
+            allowNull: true,
+            set(value) {
+              const hash = bcrypt.hashSync(value, bcrypt.genSaltSync(8));
+              this.setDataValue('password', hash);
+            }
+        },
         updatedAt: {
             type: 'TIMESTAMP',
             field: 'last_updated',
             defaultValue: type.literal('CURRENT_TIMESTAMP')
           },
-          createdAt: {
-            type: 'TIMESTAMP',
-            field: 'created_at',
-            defaultValue: type.literal('CURRENT_TIMESTAMP')
+          companyName: {
+            type: type.STRING,
+            field: 'company_name'
+          },
+          ebayPage: {
+            type: type.STRING,
+            field: 'ebay_page'
           }
     },{
-        timestamps: false,
-        instanceMethods: {
-            generateHash(password) {
-                return bcrypt.hash(password, bcrypt.genSaltSync(8));
-            }
-            // ,
-            // validPassword(password) {
-            //     return bcrypt.compare(password, this.password);
-            // }
-        }
+        timestamps: false
     })
+
+    User.prototype.generateHash = (password) => {
+         let result = bcrypt.hash(password, bcrypt.genSaltSync(8));
+         console.log(JSON.stringify(result));
+         return result;
+    }
+
+    User.prototype.validPassword = async (password,hashPassword) => {
+        console.log(password," ",hashPassword);
+        console.log(password === hashPassword);
+                return bcrypt.compare(password, hashPassword);
+            }
+
+    User.prototype.comparePassword = function (password) {
+    bcrypt.compare(password, this.password, function (res, err) {
+        console.log(password+" "+this.password);
+      if (res) {
+          
+        console.log(res)
+      } else {
+        console.log(err)
+      }
+    })
+    return bcrypt.compare(password, this.password)
+  }
+
+    return User;
 }
+
+
+
