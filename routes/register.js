@@ -1,16 +1,18 @@
 var express = require('express');
 var routes = express.Router();
-const { User} = require('../db/sequalize');
+const registerService = require('./../services/registerService');
+const { Address} = require('../db/sequalize');
 
-routes.get('/api/users', async (req, res) => {
-    let result = await User.findAll();
+routes.get('/api/address', async (req, res) => {
+    let result = await Address.findAll();
     console.log(JSON.stringify(result));
     res.json(result)
-})
+});
 
-routes.post("/loginpost",async function(req,res){
-    console.log(JSON.stringify(req.body));
-    res.send({ "message":"login Successfully" });
+routes.post('/api/register', async (req, res) => {
+    let result = await registerService.register(req);
+    console.log(JSON.stringify(result));
+    res.json(result)
 });
 
 module.exports= routes;

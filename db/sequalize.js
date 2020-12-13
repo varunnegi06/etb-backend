@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize')
 const UserModel = require('../modal/user')
-// const BlogModel = require('./models/blog')
-// const TagModel = require('./models/tag')
+const AddressModal = require('../modal/address')
 
 const sequelize = new Sequelize('dekam_etb', 'dekam_etb', '2020etb!', {
   host: '198.58.103.35',
@@ -14,7 +13,8 @@ const sequelize = new Sequelize('dekam_etb', 'dekam_etb', '2020etb!', {
   }
 })
 
-const User = UserModel(sequelize, Sequelize)
+const User = UserModel(sequelize, Sequelize);
+const Address = AddressModal(sequelize, Sequelize);
 
 // sequelize.sync({ force: true })
 //   .then(() => {
@@ -22,5 +22,6 @@ const User = UserModel(sequelize, Sequelize)
 //   })
 
 module.exports = {
-  User
+  User,
+  Address
 }
