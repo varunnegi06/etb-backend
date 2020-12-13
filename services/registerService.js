@@ -5,12 +5,13 @@ const register = (req) => {
     return new Promise(function (resolve, reject) {
         try {
             User.create({
-                user_name: userJson.userName,
+                userName: userJson.userName,
                 email: userJson.email,
                 password: userJson.password,
                 companyName: userJson.companyName,
                 ebayPage: userJson.ebayPage,
             }).then(function (user) {
+                console.log("user"+JSON.stringify(user));
                 Address.create({
                     planType: userJson.planType,
                     planAmount: userJson.planAmount,
@@ -21,8 +22,8 @@ const register = (req) => {
                     zip: userJson.zip,
                     cardNumber: userJson.cardNumber,
                     cvv: userJson.cvv,
-                    exp_date: userJson.expDate,
-                    user_id: user.user_id
+                    expDate: userJson.expDate,
+                    userId: user.userId
                 }).then(function () {
                     resolve({
                         "code": 200,
