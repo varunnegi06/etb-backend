@@ -1,8 +1,6 @@
 let nodemailer = require('nodemailer');
-const JSONTransport = require('nodemailer/lib/json-transport');
-const { ResetPassword } = require('../db/sequalize');
-const { User } = require('../db/sequalize');
-const { Op } = require('sequelize')
+const { ResetPassword ,User , sequelize} = require('../db/sequalize');
+const { Op,QueryTypes  } = require('sequelize');
 
 const forgotPassword = (req) => {
     return new Promise ( async (resolve, reject) => {
@@ -62,4 +60,52 @@ const forgotPassword = (req) => {
     });
 }
 
+const resetPassword = (req) => {
+  return new Promise (async (resolve,reject) => {
+    try {
+      console.log("[START] resetPassword service");
+
+      //fetch valid data for update
+      let reset = await sequelize.query('select * from reset_passwords where email = (:email) AND otp = (:otp) AND DATE_ADD(duration,INTERVAL 1 HOUR) >= NOW()', {
+          replacements: {email: req.body.email, otp: req.body.otp },
+          model: ResetPassword,
+          mapToModel: true
+        });
+        console.log("reset "+JSON.stringify(reset));
+      // change the password
+      if(reset.length > 0){
+        console.log("found valid request to change password");
+
+        //search user table for record
+        const user = await User.findOne({
+
+          where : {
+             email: req.body.email 
+            }
+        });
+
+        console.log("user found is "+JSON.stringify(user));
+
+        let update = await user.update({
+          password: req.body.password,
+          },
+          { where: { email: req.body.email }}
+          );
+
+          console.log("update result "+JSON.stringify(update));
+          resolve({"message":"record updated successfully"});
+      }
+      else {
+        
+        resolve({"message":"no record updated"});
+      }
+      console.log("[END] resetPassword service");
+    } catch (error) {
+      console.log("error occurred in resetPassword service "+error.message);
+      reject({error: error.message});
+    }
+  })
+}
+
 module.exports.forgotPassword = forgotPassword;
+module.exports.resetPassword = resetPassword;

@@ -13,4 +13,10 @@ routes.post("/forgot",async function(req,res){
     res.send(forgot);
 });
 
+routes.post("/reset",async function(req,res){
+    console.log(JSON.stringify(req.body));
+    let forgot = await accountService.resetPassword(req);
+    res.send(forgot);
+});
+
 module.exports= routes;

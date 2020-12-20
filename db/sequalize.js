@@ -26,5 +26,6 @@ const ResetPassword = ResetPasswordModel(sequelize, Sequelize);
 module.exports = {
   User,
   Address,
-  ResetPassword
+  ResetPassword,
+  sequelize
 }
