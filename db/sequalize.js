@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const UserModel = require('../modal/user')
 const AddressModal = require('../modal/address')
+const ResetPasswordModel = require('../modal/resetPassword')
 
 const sequelize = new Sequelize('dekam_etb', 'dekam_etb', '2020etb!', {
   host: '198.58.103.35',
@@ -15,6 +16,7 @@ const sequelize = new Sequelize('dekam_etb', 'dekam_etb', '2020etb!', {
 
 const User = UserModel(sequelize, Sequelize);
 const Address = AddressModal(sequelize, Sequelize);
+const ResetPassword = ResetPasswordModel(sequelize, Sequelize);
 
 // sequelize.sync({ force: true })
 //   .then(() => {
@@ -23,5 +25,7 @@ const Address = AddressModal(sequelize, Sequelize);
 
 module.exports = {
   User,
-  Address
+  Address,
+  ResetPassword,
+  sequelize
 }
