@@ -12,6 +12,8 @@
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "custom-env": "^2.0.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "joi": "^17.3.0",
@@ -20,6 +22,8 @@
     "mysql2": "^2.2.5",
     "sequelize": "^6.3.5",
     "sort-json": "^2.0.0",
-    "sort-json-array": "^0.1.7"
+    "sort-json-array": "^0.1.7",
+    "square": "^8.0.1",
+    "uuid": "^8.3.2"
   }
 }
