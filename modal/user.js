@@ -15,6 +15,10 @@ module.exports = (sequelize, type) => {
     email: {
       type: type.STRING,
       field: 'email'
+    },
+    phoneNumber: {
+      type: type.STRING,
+      field: 'phone_number'
     }
     ,
     password: {

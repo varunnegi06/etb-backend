@@ -4,6 +4,7 @@ const register = (req) => {
     let userJson = req.body;
     return new Promise(function (resolve, reject) {
         try {
+            console.log("userJson"+JSON.stringify(userJson));
             User.create({
                 userName: userJson.userName,
                 email: userJson.email,
@@ -20,9 +21,6 @@ const register = (req) => {
                     city: userJson.city,
                     state: userJson.state,
                     zip: userJson.zip,
-                    cardNumber: userJson.cardNumber,
-                    cvv: userJson.cvv,
-                    expDate: userJson.expDate,
                     userId: user.userId
                 }).then(function () {
                     resolve({
@@ -32,7 +30,7 @@ const register = (req) => {
                 });
             });
         } catch (error) {
-            console.log("Error in ");
+            console.log("Error in Register Service");
             reject();
         }
 
