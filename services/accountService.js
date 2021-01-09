@@ -13,10 +13,20 @@ const forgotPassword = (req) => {
         resolve({ 'error': 'No account with that email address exists.' })
       }
       console.log("USER FOUND " + JSON.stringify(user));
+
+      let resetTable = await ResetPassword.findOne({ email: req.body.email });
+      console.log('resetTable '+JSON.stringify(resetTable));
+      await resetTable.destroy({
+        where: {
+          email: req.body.email
+        }
+    })
+
       let dt = new Date();
       dt.setHours(dt.getHours() + 1)
       let otp = Math.floor(100000 + Math.random() * 900000);
       console.log("otp " + otp + " duration " + dt);
+      console.log("Params are "+JSON.stringify({ email: req.body.email, otp: otp, duration: dt }))
       let resetPassword = await ResetPassword.create({ email: req.body.email, otp: otp, duration: dt });
 
 
