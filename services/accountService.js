@@ -101,7 +101,7 @@ const resetPassword = (req) => {
         );
 
         console.log("update result " + JSON.stringify(update));
-        resolve({ "message": "record updated successfully" });
+        resolve({ "message": "Success" });
       }
       else {
 
