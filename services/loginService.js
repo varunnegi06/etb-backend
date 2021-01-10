@@ -1,69 +1,69 @@
-const { User} = require('../db/sequalize');
+const { User } = require('../db/sequalize');
 const { Op } = require("sequelize");
 const jwt = require('jsonwebtoken');
 
 const login = (req) => {
 
-    return new Promise (async(resolve,reject) => {
+  return new Promise(async (resolve, reject) => {
 
-        try {
-            // Grab user input
-            const { userName, password } = req.body
-            
-            const user = await User.findOne({
+    try {
+      // Grab user input
+      const { userName, password } = req.body
 
-              where : {
-                [Op.or]: [
-                  { email: userName },
-                  { userName: userName }
-                ]
-              }
-            });
-            console.log("user record found is "+JSON.stringify(user));
-            console.log("generate hash "+await user.generateHash(password));
-            // Check to see if user is in db
-            if (!user) {
-            //   res.status(403).send({
-            //     error: 'the login information was incorrect / Not Found'
-            //   })
-            return resolve({
-                    status: 403,
-                    error: 'the login information was incorrect / Not Found'
-                  })
-            }
+      const user = await User.findOne({
 
-            // Check to see if password is valid
-            const isPasswordValid = await user.validPassword(password,user.password);
-            console.log("isPasswordValid "+isPasswordValid+" "+user.password);
-            if (!isPasswordValid) {
-                return resolve({
-                    status: 403,
-                    error: 'the login information was incorrect / Not Found'
-                  })
-            }
-            // return user using toJSON()
-            const userJson = user.toJSON()
+        where: {
+          [Op.or]: [
+            { email: userName },
+            { userName: userName }
+          ]
+        }
+      });
+      // Check to see if user is in db
+      if (!user) {
+        //   res.status(403).send({
+        //     error: 'the login information was incorrect / Not Found'
+        //   })
+        return resolve({
+          status: 403,
+          error: 'the login information was incorrect / Not Found'
+        })
+      }
+      console.log("user record found is " + JSON.stringify(user));
+      console.log("generate hash " + await user.generateHash(password));
 
-            const  expiresIn  =  24  *  60  *  60;
-            const SECRET_KEY = `T003bhyr)656583**`;
-            const  accessToken  =  jwt.sign({ id:  user.id }, SECRET_KEY, {
-                expiresIn:  expiresIn
-            });
+      // Check to see if password is valid
+      const isPasswordValid = await user.validPassword(password, user.password);
+      console.log("isPasswordValid " + isPasswordValid + " " + user.password);
+      if (!isPasswordValid) {
+        return resolve({
+          status: 403,
+          error: 'the login information was incorrect / Not Found'
+        })
+      }
+      // return user using toJSON()
+      const userJson = user.toJSON()
 
-            delete userJson.userId;
-            delete userJson.password;
-            delete userJson.updatedAt;
+      const expiresIn = 24 * 60 * 60;
+      const SECRET_KEY = `T003bhyr)656583**`;
+      const accessToken = jwt.sign({ id: user.id }, SECRET_KEY, {
+        expiresIn: expiresIn
+      });
 
-            resolve({
-              user: userJson,
-              token: accessToken
-            })
-          } catch (e) {
-            console.log(e)
-            reject({ error: 'An error occured attempting to login' })
-            
-          }
-    });
+      delete userJson.userId;
+      delete userJson.password;
+      delete userJson.updatedAt;
+
+      resolve({
+        user: userJson,
+        token: accessToken
+      })
+    } catch (e) {
+      console.log(e)
+      reject({ error: 'An error occured attempting to login' })
+
+    }
+  });
 }
 
 

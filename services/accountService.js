@@ -7,16 +7,22 @@ const forgotPassword = (req) => {
     try {
       console.log("[START] forgotPassword Method");
 
-      let user = await User.findOne({         where: {
-        email: req.body.email
-      } })
+      let user = await User.findOne({
+        where: {
+          email: req.body.email
+        }
+      })
       if (!user) {
         //req.flash('error', 'No account with that email address exists.');
         resolve({ 'error': 'No account with that email address exists.' })
       }
       console.log("USER FOUND " + JSON.stringify(user));
 
-      let resetTable = await ResetPassword.findOne({ email: req.body.email });
+      let resetTable = await ResetPassword.findOne({
+        where: {
+          email: req.body.email
+        }
+      });
       console.log('resetTable '+JSON.stringify(resetTable));
       await resetTable.destroy({
         where: {
@@ -36,7 +42,8 @@ const forgotPassword = (req) => {
         //service: 'SendGrid',
         host: accountConstants.host,
         port: accountConstants.port,
-        auth: accountConstants.auth
+        auth: accountConstants.auth,
+        tls: { rejectUnauthorized: false }
       });
 
       var mailOptions = {
