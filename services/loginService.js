@@ -1,6 +1,7 @@
 const { User } = require('../db/sequalize');
 const { Op } = require("sequelize");
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
 
 const login = (req) => {
 
@@ -19,6 +20,7 @@ const login = (req) => {
           ]
         }
       });
+
       // Check to see if user is in db
       if (!user) {
         //   res.status(403).send({
@@ -28,6 +30,15 @@ const login = (req) => {
           status: 403,
           error: 'the login information was incorrect / Not Found'
         })
+      } else if (user) {
+        currentDate = moment(new Date()).format("YYYY-MM-DD");
+        ValidTillDate = moment(user.validTill).format("YYYY-MM-DD");
+        if(moment(ValidTillDate).diff(currentDate, 'days')<0){
+          return resolve({
+            status: 403,
+            error: 'Your Subscription is expired.'
+          })
+        }
       }
       console.log("user record found is " + JSON.stringify(user));
       console.log("generate hash " + await user.generateHash(password));

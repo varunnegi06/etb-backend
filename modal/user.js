@@ -41,6 +41,15 @@ module.exports = (sequelize, type) => {
     ebayPage: {
       type: type.STRING,
       field: 'ebay_page'
+    },
+    validTill:{
+      type: 'TIMESTAMP',
+      field: 'valid_till'
+    },
+    creationDate:{
+      type: 'TIMESTAMP',
+      field: 'creation_date',
+      defaultValue: type.literal('CURRENT_TIMESTAMP')
     }
   }, {
     timestamps: false

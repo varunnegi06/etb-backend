@@ -24,11 +24,13 @@ const forgotPassword = (req) => {
         }
       });
       console.log('resetTable '+JSON.stringify(resetTable));
-      await resetTable.destroy({
-        where: {
-          email: req.body.email
-        }
-    })
+      if (resetTable !== null) {
+        await resetTable.destroy({
+          where: {
+            email: req.body.email
+          }
+        })
+      }
 
       let dt = new Date();
       dt.setHours(dt.getHours() + 1)
