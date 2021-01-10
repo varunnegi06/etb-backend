@@ -7,7 +7,9 @@ const forgotPassword = (req) => {
     try {
       console.log("[START] forgotPassword Method");
 
-      let user = await User.findOne({ email: req.body.email })
+      let user = await User.findOne({         where: {
+        email: req.body.email
+      } })
       if (!user) {
         //req.flash('error', 'No account with that email address exists.');
         resolve({ 'error': 'No account with that email address exists.' })
