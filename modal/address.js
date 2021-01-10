@@ -39,18 +39,6 @@ module.exports = (sequelize, type) => {
       type: type.STRING,
       field: 'zip'
     },
-    cardNumber: {
-      type: type.STRING,
-      field: 'card_number'
-    },
-    cvv: {
-      type: type.STRING,
-      field: 'cvv'
-    },
-    expDate: {
-      type: type.STRING,
-      field: 'exp_date'
-    },
     userId:{
       type: type.STRING,
       field: 'user_id'
