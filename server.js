@@ -2,6 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var cors = require('cors');
+var https = require('https');
+var fs = require('fs');
 /*
  * DB Config file based on ENV triggered from pm2
  */
@@ -16,7 +18,13 @@ app.use(bodyParser.json());
 var routes = require('./routes/index');
 app.use(routes);
 
+var options = {
+  key: fs.readFileSync('./certs/etb.dekam.co.key'),
+  cert: fs.readFileSync('./certs/etb.dekam.co.cert')
+};
 
-app.listen(3001,function(){
+var server = https.createServer(options,app);
+
+server.listen(3001,function(){
     console.log("Server is running ");
 });
