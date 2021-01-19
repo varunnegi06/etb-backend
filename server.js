@@ -20,7 +20,7 @@ app.use(routes);
 
 var options = {
   key: fs.readFileSync('./certs/etb-dekam.key'),
-  cert: fs.readFileSync('./certs/etb-dekam.cert')
+  cert: fs.readFileSync('./certs/etb-dekam.crt')
 };
 
 var server = https.createServer(options,app);
