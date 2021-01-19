@@ -19,8 +19,8 @@ var routes = require('./routes/index');
 app.use(routes);
 
 var options = {
-  key: fs.readFileSync('./certs/etb.dekam.co.key'),
-  cert: fs.readFileSync('./certs/etb.dekam.co.cert')
+  key: fs.readFileSync('./certs/etb-dekam.key'),
+  cert: fs.readFileSync('./certs/etb-dekam.cert')
 };
 
 var server = https.createServer(options,app);
