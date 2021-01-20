@@ -7,13 +7,13 @@ routes.get('/api/reset', async (req, res) => {
     res.json(result)
 })
 
-routes.post("/forgot",async function(req,res){
+routes.post("/api/forgot",async function(req,res){
     console.log(JSON.stringify(req.body));
     let forgot = await accountService.forgotPassword(req);
     res.send(forgot);
 });
 
-routes.post("/reset",async function(req,res){
+routes.post("/api/reset",async function(req,res){
     console.log(JSON.stringify(req.body));
     let forgot = await accountService.resetPassword(req);
     res.send(forgot);

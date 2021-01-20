@@ -9,7 +9,7 @@ routes.get('/api/users', async (req, res) => {
     res.json(result)
 })
 
-routes.post("/loginpost",async function(req,res){
+routes.post("/api/loginpost",async function(req,res){
     console.log(JSON.stringify(req.body));
     let login = await loginService.login(req);
     res.send(login);
