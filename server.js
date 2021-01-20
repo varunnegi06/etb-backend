@@ -25,8 +25,7 @@ app.use(function (req, res, next) {
 
 var options = {
   key: fs.readFileSync('./certs/etb-dekam.key'),
-  cert: fs.readFileSync('./certs/etb-dekam.crt'),
-  rejectUnauthorized: false
+  cert: fs.readFileSync('./certs/etb-dekam.crt')
 };
 
 var server = https.createServer(options,app);
