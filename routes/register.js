@@ -15,4 +15,10 @@ routes.post('/api/register', async (req, res) => {
     res.json(result)
 });
 
+routes.post('/api/checkEmailExists', async (req, res) => {
+    let result = await registerService.checkEmailExists(req);
+    console.log(JSON.stringify(result));
+    res.json(result)
+});
+
 module.exports= routes;

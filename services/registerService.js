@@ -48,4 +48,36 @@ const register = (req) => {
     });
 }
 
+const checkEmailExists = (req) => {
+    let emailId = req.body.emailId;
+    return new Promise(async function (resolve, reject) {
+        try {
+            const user = await User.findOne({
+                where: {
+                    email: emailId
+                }
+            });
+            console.log("user"+JSON.stringify(user));
+            if(user){
+                return resolve({
+                    status: 403,
+                    message: 'User already exists'
+                  })
+            }else{
+                return resolve({
+                    status: 200,
+                    message: 'User not found'
+                  })
+            }
+        } catch (error) {
+            logger.error("Error in checkEmailExists service"+error);
+            reject({
+                status: 403,
+                message: 'Procssing error occured'
+              });
+        }
+    });
+}
+
 module.exports.register = register;
+module.exports.checkEmailExists = checkEmailExists;
